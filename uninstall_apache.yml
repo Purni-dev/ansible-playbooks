@@ -1,0 +1,12 @@
+---
+- name: uninstall httpd service
+  hosts: web
+  become: yes
+
+  vars:
+    ansible_become_pass: "vagrant"
+  
+
+  roles:
+    - apache 
+...

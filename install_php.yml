@@ -1,0 +1,31 @@
+---
+- name: install and configure php
+  hosts: 192.168.2.30
+  become: yes
+
+  vars:
+    become_ansible_password: "vagrant"
+
+  tasks:
+    - name: install php
+      ansible.builtin.yum:
+        name:
+          - php
+          - php-mysql
+        state: present
+       #when: ansible_distribution == "CentOS"
+
+    - name: install php
+      ansible.builtin.apt:
+        name:
+          - php
+          - php-mysql
+        state: present
+      # when: ansible_distribution == "Ubuntu"
+ 
+    - name: copy info.php 
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html/info.php
+
+...

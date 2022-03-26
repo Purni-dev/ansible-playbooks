@@ -1,0 +1,22 @@
+---
+- name: install and configure mysql
+  hosts: 192.168.2.30
+  become: yes
+
+  vars:
+    become_ansible_password: "vagrant"
+
+  tasks:
+    - name: install mysql
+      ansible.builtin.yum:
+        name: 
+          - mariadb
+          - mariadb-server  
+        state: present
+
+    - name: start mariadb
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+
+...

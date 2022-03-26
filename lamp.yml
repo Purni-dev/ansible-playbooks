@@ -1,0 +1,50 @@
+---
+- name: Install and configure lamp
+  hosts: 192.168.2.30
+  become: yes
+
+  vars:
+    ansible_become_password: "vagrant"
+
+  tasks:
+    - name: install apache
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+      when: ansible_distribution == "CentOS"
+
+    - name: install apache
+      ansible.builtin.apt:
+        name: httpd
+        state: present
+      when: ansible_distribution == "Ubuntu"
+
+    - name: start httpd
+      ansible.builtin.service:
+        name: httpd
+        state: started
+
+    - name: install mariadb
+      ansible.builtin.yum:
+        name:
+          - mariadb
+          - mariadb-server
+        state: present
+  
+    - name: start mariadb
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+
+    - name: install php
+      ansible.builtin.yum:
+        name:
+          - php
+          - php-mysql
+        state: present
+
+    - name: copy info.php
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html/info.php
+... 
